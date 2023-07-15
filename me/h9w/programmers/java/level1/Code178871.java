@@ -12,7 +12,7 @@ public class Code178871 {
         */
         String[] players = {"mumu", "soe", "poe", "kai", "mine"};
         String[] callings = {"kai", "kai", "mine", "mine"};
-        String[] answer = {};
+
         /* 처음 생각은 callings의 길이만큼 반복하여
         *  players의 전체를 순회하며 callings[index]와 비교 후 찾은 players의 멤버의 스왑이었다.
         * 이렇게되면 최악의 경우 callings의 길이 * players의 길이 의 시간복잡도가 나온다.
@@ -33,6 +33,38 @@ public class Code178871 {
 //                }
 //            }
 //        }
+
+        String[] answer = solution(players, callings);
+    }
+
+    public static String[] solution2(String[] players, String[] callings) {
+        String[] answer = {};
+
+        HashMap<String, Integer> rank = new HashMap<>();
+
+        for(int i = 0; i < players.length; i++) {
+            rank.put(players[i], i);
+        }
+
+        for(int i = 0; i < callings.length; i++) {
+            int temp = rank.get(callings[i]);
+
+            String passed = players[temp - 1];
+            String called = players[temp];
+
+            rank.put(passed, temp);
+            rank.put(called, temp - 1);
+
+            players[temp] = passed;
+            players[temp - 1] = called;
+        }
+
+        return answer;
+    }
+
+
+    public static String[] solution(String[] players, String[] callings) {
+
         Map<String, Integer> rankMap = new HashMap<>();
 
         for(int i = 0; i < players.length; i++) {
@@ -55,6 +87,6 @@ public class Code178871 {
             players[rank] = passed;
             players[rank - 1] = called;
         }
-
+        return players;
     }
 }
